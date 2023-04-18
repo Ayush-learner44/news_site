@@ -1,0 +1,190 @@
+what is new?
+1. Usecontext and useReducer . ( This is the hardest part)
+2.This is the free news api website https://hn.algolia.com/api
+
+Sure! Here's a short summary of what happens in the code you provided:
+
+1. The `Stories` component uses the `useGlobalContext` hook to access the `hits` and `isLoading` values from the global context.
+2. If `isLoading` is `true`, the component returns a loading message.
+3. If `isLoading` is `false`, the component maps over the `hits` array and displays each hit's title in an `<h2>` element.
+4. In the reducer.js file, there are two cases in the reducer function: "SET_LOADING" and "GET_STORIES".
+5. The "SET_LOADING" case sets `isLoading` to `true`.
+6. The "GET_STORIES" case sets `isLoading` to `false` and updates the `hits` array with the fetched data.
+7. In the context.js file, an initial state is defined with default values for `isLoading`, `query`, `nbPages`, `page`, and `hits`.
+8. The `AppProvider` component uses the `useReducer` hook to create a `state` and a `dispatch` function using the reducer function and initial state.
+9. The `fetchApiData` function is defined to fetch data from the API and dispatch an action with the fetched data.
+10. The `useEffect` hook is used to call the `fetchApiData` function when the component mounts.
+
+I hope this helps you understand how the code works!
+
+
+Sure! The `useReducer` hook is a function that accepts a reducer function and an initial state as arguments and returns the current state and a `dispatch` function. The reducer function is a function that takes the current state and an action as arguments and returns a new state based on the action.
+
+The `dispatch` function is used to dispatch actions to the reducer function. When you call `dispatch` with an action, the reducer function is called with the current state and the action as arguments. The reducer function then returns a new state based on the action, and the `useReducer` hook updates the current state with the new state.
+
+In your code, the `state` variable holds the current state of your application, which includes values for `isLoading`, `query`, `nbPages`, `page`, and `hits`. The `dispatch` function is used to dispatch actions to update the state. For example, when you call `dispatch({type:"SET_LOADING"})`, the reducer function is called with the current state and the action `{type:"SET_LOADING"}` as arguments. The reducer function then returns a new state with `isLoading` set to `true`, and the `useReducer` hook updates the current state with the new state.
+
+I hope this helps you understand how `useReducer`, `dispatch`, and `state` work together!
+
+
+
+Sure! In the code you provided, the `dispatch` function is used to dispatch actions to the reducer function. An action is an object that has a `type` property and optionally other properties that provide additional information about the action.
+
+In your code, there are two types of actions: "SET_LOADING" and "GET_STORIES". When you call `dispatch({type:"SET_LOADING"})`, you are dispatching an action of type "SET_LOADING" to the reducer function. The reducer function then handles this action in the "SET_LOADING" case by returning a new state with `isLoading` set to `true`.
+
+When you call `dispatch({type:"GET_STORIES", payload: {hits: data.hits, nbPages: data.nPages}})`, you are dispatching an action of type "GET_STORIES" with a payload containing the fetched data. The reducer function then handles this action in the "GET_STORIES" case by returning a new state with `isLoading` set to `false` and `hits` updated with the fetched data.
+
+In summary, the `dispatch` function is used to dispatch actions to the reducer function, which updates the state based on the action. I hope this helps you understand how `dispatch` works in your code!
+
+
+Sure! Here's a more detailed, line-by-line explanation of the `REMOVE_POST` action and how it works in the context of the code you provided:
+
+1. The `reducer` function is defined with two parameters: `state` and `action`. `state` represents the current state of the application, and `action` represents an object that describes a change to be made to the state.
+
+```javascript
+const reducer = (state, action) => {
+  // ...
+};
+```
+
+2. Inside the `reducer` function, a `switch` statement is used to handle different types of actions based on their `type` property.
+
+```javascript
+const reducer = (state, action) => {
+  switch (action.type) {
+    // ...
+  }
+};
+```
+
+3. One of the cases in the `switch` statement is for the `"REMOVE_POST"` action type. When an action with this type is dispatched to the reducer, it triggers the following code:
+
+```javascript
+case "REMOVE_POST":
+  return {
+    ...state,
+    hits: state.hits.filter(
+      (curElement) => curElement.objectID != action.payload
+    ),
+  };
+```
+
+4. This code creates a new state object by spreading the current state using the spread operator (`...state`). This creates a shallow copy of the current state object.
+
+```javascript
+return {
+  ...state,
+  // ...
+};
+```
+
+5. The new state object is then updated by adding a new value for the `hits` property. The new value is calculated by calling the `filter` method on the current `hits` array.
+
+```javascript
+return {
+  ...state,
+  hits: state.hits.filter(
+    (curElement) => curElement.objectID != action.payload
+  ),
+};
+```
+
+6. The `filter` method creates a new array that includes only the elements from the current `hits` array that pass a test implemented by the provided function. In this case, the test checks if the `objectID` property of each element is not equal to (`!=`) the `payload` property of the `action` object.
+
+```javascript
+return {
+  ...state,
+  hits: state.hits.filter(
+    (curElement) => curElement.objectID != action.payload
+  ),
+};
+```
+
+7. This means that only elements with an `objectID` that does not match the `payload` of the `REMOVE_POST` action will be included in the new `hits` array. In other words, this code removes the element with an `objectID` that matches the `payload` of the `REMOVE_POST` action from the `hits` array.
+
+8. The updated state object is then returned by the reducer function and used to update the application's state.
+
+In summary, when a `REMOVE_POST` action is dispatched to the reducer with a payload containing the `objectID` of a post, it triggers an update to the state that removes that post from the `hits` array.
+
+Is this explanation clearer?
+
+
+
+Sure! Here's a detailed explanation of the `SET_LOADING` and `GET_STORIES` actions and how they work in the context of the code you provided:
+
+`SET_LOADING` action:
+1. The `SET_LOADING` action is used to update the `isLoading` property of the state to `true`.
+2. When an action with the type `"SET_LOADING"` is dispatched to the reducer, it triggers the following code:
+
+```javascript
+case "SET_LOADING":
+  return {
+    ...state,
+    isLoading: true,
+  };
+```
+
+3. This code creates a new state object by spreading the current state and updating the `isLoading` property to `true`.
+4. The updated state is then returned by the reducer function and used to update the application's state.
+
+
+
+Sure! Here's a more detailed, line-by-line explanation of the `GET_STORIES` action and how it works in the context of the code you provided:
+
+1. The `GET_STORIES` action is used to update the `hits` property of the state with new data fetched from an API.
+
+2. When an action with the type `"GET_STORIES"` is dispatched to the reducer, it triggers the following code:
+
+```javascript
+case "GET_STORIES":
+  return {
+    ...state,
+    hits: action.payload.hits,
+    isLoading: false,
+  };
+```
+
+3. This code creates a new state object by spreading the current state using the spread operator (`...state`). This creates a shallow copy of the current state object.
+
+```javascript
+return {
+  ...state,
+  // ...
+};
+```
+
+4. The new state object is then updated by adding new values for the `hits` and `isLoading` properties.
+
+```javascript
+return {
+  ...state,
+  hits: action.payload.hits,
+  isLoading: false,
+};
+```
+
+5. The new value of `hits` is set to the value of the `hits` property of the `payload` object of the `GET_STORIES` action.
+
+```javascript
+return {
+  ...state,
+  hits: action.payload.hits,
+  // ...
+};
+```
+
+6. The new value of `isLoading` is set to `false`, indicating that loading has completed.
+
+```javascript
+return {
+  ...state,
+  // ...
+  isLoading: false,
+};
+```
+
+7. The updated state object is then returned by the reducer function and used to update the application's state.
+
+In summary, when a `GET_STORIES` action is dispatched to the reducer with a payload containing an array of stories, it triggers an update to the state that sets the value of `hits` to that array and sets `isLoading` to `false`.
+
+Is this explanation clearer?
